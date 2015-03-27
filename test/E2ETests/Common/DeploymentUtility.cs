@@ -226,6 +226,9 @@ namespace E2ETests
                 logger.LogInformation("{0} = {1}", item.Key, item.Value);
             }
 
+            var backup = Environment.GetEnvironmentVariable("DNX_PACKAGES");
+            Environment.SetEnvironmentVariable("DNX_PACKAGES", string.Empty);
+
             var startInfo = new ProcessStartInfo
             {
                 FileName = iisExpressPath,
@@ -236,6 +239,7 @@ namespace E2ETests
 
             var hostProcess = Process.Start(startInfo);
             logger.LogInformation("Started iisexpress. Process Id : {processId}", hostProcess.Id);
+            Environment.SetEnvironmentVariable("DNX_PACKAGES", backup);
 
             return hostProcess;
         }
