@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -208,6 +209,22 @@ namespace E2ETests
             var iisExpressPath = IISExpressHelper.GetPath(startParameters.RuntimeArchitecture);
 
             logger.LogInformation("Executing command : {iisExpress} {args}", iisExpressPath, parameters);
+
+            foreach (DictionaryEntry item in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Process))
+            {
+                logger.LogInformation("{0} = {1}", item.Key, item.Value);
+            }
+
+            logger.LogInformation("-------------------");
+            foreach (DictionaryEntry item in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User))
+            {
+                logger.LogInformation("{0} = {1}", item.Key, item.Value);
+            }
+            logger.LogInformation("-------------------");
+            foreach (DictionaryEntry item in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine))
+            {
+                logger.LogInformation("{0} = {1}", item.Key, item.Value);
+            }
 
             var startInfo = new ProcessStartInfo
             {
